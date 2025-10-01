@@ -33,6 +33,7 @@ public class NewTeleop extends LinearOpMode {
                 "br",true,
                 true);
         */
+
         telemetry.addData("Status","Initialized");
         telemetry.update();
 
