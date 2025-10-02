@@ -1,3 +1,9 @@
+## ATTENTION:
+This is 8902 & 23314's Outreach Bot! This is where we put the code for our outreach bot when we 
+go to outreach events, etc. This is NOT a competition bot! Thanks for reading :)
+(The rest of this stuff is just the README.md that FTC puts in the SDK and we don't want to delete
+all of that)
+
 ## NOTICE
 
 This repository contains the public FTC SDK for the DECODE (2025-2026) competition season.
