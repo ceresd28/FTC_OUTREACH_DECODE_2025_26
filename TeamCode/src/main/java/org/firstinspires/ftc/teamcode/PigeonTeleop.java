@@ -1,14 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="GOOSETELEOP",group="")
-public class NewTeleop extends LinearOpMode {
+@Disabled
+@TeleOp(name="Goose_Teleop",group="")
+public class PigeonTeleop extends LinearOpMode {
     public boolean flywheelRunning = false;
     public int direction = 1;
     @Override

@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Disabled
 @TeleOp(name="OUTREACH_INTO_THE_DEEP",group="")
-public class Teleop extends LinearOpMode {
+public class IntoTheDeepTeleop extends LinearOpMode {
     public boolean lightsOrange = false;
     public boolean canPickUpFromGround = false;
     public boolean wallPosition = true;

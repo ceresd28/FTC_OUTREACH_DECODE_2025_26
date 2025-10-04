@@ -32,8 +32,8 @@ public class Wheels {
         Motors.runControlled(bottomRight,y+x-r);
     }
     public static void TeleOpDrive(double percentPwr) {
-        double x = Robot.opMode.gamepad1.left_stick_x*1.1*-1;
-        double y = -Robot.opMode.gamepad1.left_stick_y*-1;
+        double x = Robot.opMode.gamepad1.left_stick_x*1.1;
+        double y = -Robot.opMode.gamepad1.left_stick_y;
         double r = Robot.opMode.gamepad1.right_stick_x;
 
         x*=percentPwr;
