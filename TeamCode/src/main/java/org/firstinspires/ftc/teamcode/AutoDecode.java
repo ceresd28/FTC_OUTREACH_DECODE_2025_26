@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "Basic auto")
 public class AutoDecode extends LinearOpMode {
+    //This was made by Adhithya Yuvaraj XD
+    //Ideally it should shoot an artifact, and then move a bit.
     DcMotor motorleft, motorright, frontright, frontleft, backright, backleft, intake;
 
 
