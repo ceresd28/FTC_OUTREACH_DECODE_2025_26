@@ -10,8 +10,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp(name = "Goose_Gotham_Program")
 public class GooseGOTHAM extends LinearOpMode {
 
-    //lets instanitate the 6 motors!
-    DcMotor motorleft, motorright, frontright, frontleft, backright, backleft;
+    //This was made by Adhithya Yuvaraj XD
+
+    //lets instanitate the 7 motors!
+    DcMotor motorleft, motorright, frontright, frontleft, backright, backleft, intake;
+
+
+    //servo kick motor
+    Servo kickBall;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -23,11 +29,17 @@ public class GooseGOTHAM extends LinearOpMode {
         frontleft = hardwareMap.get(DcMotor.class, "frontleft");
         backright = hardwareMap.get(DcMotor.class, "backright");
         backleft = hardwareMap.get(DcMotor.class, "backleft");
+        intake = hardwareMap.get(DcMotor.class, "intake");
+
+        kickBall = hardwareMap.get(Servo.class, "kickBall");
+
+
 
         //UNO REVERSE THOSE MOTORS
         frontleft.setDirection(DcMotorSimple.Direction.REVERSE);
         backleft.setDirection(DcMotorSimple.Direction.REVERSE);
         motorright.setDirection(DcMotor.Direction.REVERSE);
+        intake.setDirection(DcMotor.Direction.REVERSE);
 
         //INIT PART DONE!
         waitForStart();
@@ -59,17 +71,23 @@ public class GooseGOTHAM extends LinearOpMode {
                 telemetry.addData("Motor Speed Right: ",motorright.getPower());
             }
 
+            if(gamepad1.leftBumperWasPressed()){
+                intake.setPower(1);
+            }else if(gamepad1.rightBumperWasPressed()){
+                intake.setPower(0);
+            }
+
             //Dpad hardcoded
             if(gamepad1.dpad_up){
-                motorleft.setPower(0.4);
-                motorright.setPower(0.4); //far zone!
-            }else if(gamepad1.dpad_down){
-                motorleft.setPower(0.2);
-                motorright.setPower(0.2); //near zone! (very edge)
+                //RESET
+                kickBall.setPosition(1);
+            }else if(gamepad1.dpad_left){
+                //SHOOT
+                kickBall.setPosition(0);
             }
             else if(gamepad1.dpad_right){
-                motorleft.setPower(0); //quick turn off
-                motorright.setPower(0); //quick turn off
+                //GET READY
+                kickBall.setPosition(0.5);
             }
 
             //WHEEEEEEEELLLSSSSSSS GO WEEEEEEE
