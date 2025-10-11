@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "Goose_Gotham_Program")
+@TeleOp(name = "Goose Decode v1.0")
 public class GooseGOTHAM extends LinearOpMode {
 
     //This was made by Adhithya Yuvaraj XD
@@ -71,13 +71,14 @@ public class GooseGOTHAM extends LinearOpMode {
                 telemetry.addData("Motor Speed Right: ",motorright.getPower());
             }
 
+            //intaking
             if(gamepad1.leftBumperWasPressed()){
                 intake.setPower(1);
             }else if(gamepad1.rightBumperWasPressed()){
                 intake.setPower(0);
             }
 
-            //Dpad hardcoded
+            //kick ball dpad
             if(gamepad1.dpad_up){
                 //RESET
                 kickBall.setPosition(1);
@@ -92,6 +93,7 @@ public class GooseGOTHAM extends LinearOpMode {
 
             //WHEEEEEEEELLLSSSSSSS GO WEEEEEEE
             //i dont get this stuff :(
+            //dima did math in robotics rip
             double x = gamepad1.left_stick_x;
             double y = -gamepad1.left_stick_y;
             double r = gamepad1.right_stick_x;
