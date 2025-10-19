@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -10,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
-@TeleOp(name = "Goose Decode v1.0")
+@TeleOp(name = "GOOSE DECODE TELEOP")
 public class GooseGOTHAM extends LinearOpMode {
 
     //This was made by Adhithya Yuvaraj XD
@@ -19,10 +20,9 @@ public class GooseGOTHAM extends LinearOpMode {
     DcMotor motorright, motorleft, frontright, frontleft, backright, backleft, intake;
 
     //servo kick motor
-    Servo kickBall;
+    CRServo kickBall;
 
-    double motorPower = 0;
-
+    double speed = 1; //0.3 is baby mode
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -36,18 +36,21 @@ public class GooseGOTHAM extends LinearOpMode {
         backleft = hardwareMap.get(DcMotor.class, "backleft");
         intake = hardwareMap.get(DcMotor.class, "intake");
 
-        kickBall = hardwareMap.get(Servo.class, "kickBall");
+        kickBall = hardwareMap.get(CRServo.class, "kickBall");
 
         //EX
 
         //UNO REVERSE THOSE MOTORS
         frontleft.setDirection(DcMotorSimple.Direction.REVERSE);
         backleft.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorleft.setDirection(DcMotor.Direction.REVERSE);
+        motorright.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.REVERSE);
 
         //INIT PART DONE!
         waitForStart();
+
+        motorleft.setPower(0);
+        motorright.setPower(0);
 
 
         //THIS RUNS ON START!
@@ -56,23 +59,21 @@ public class GooseGOTHAM extends LinearOpMode {
             if(gamepad2.circleWasPressed()) { //MAX SPEED DONT CLICK HIGH SPEED GO BRRRRRR
                 motorleft.setPower(0.3);
                 motorright.setPower(0.3);
-                motorPower = 0.3;
                 telemetry.addData("Motor Speed Left",motorleft.getPower());
                 telemetry.addData("Motor Speed Right: ",motorright.getPower());
             }else if (gamepad2.triangleWasPressed()){ //decrease speed
-                motorleft.setPower(motorPower);
-                motorright.setPower(motorPower);
+                motorleft.setPower(0.45);
+                motorright.setPower(0.45);
                 telemetry.addData("Motor Speed Left",motorleft.getPower());
                 telemetry.addData("Motor Speed Right: ",motorright.getPower());
             }else if (gamepad2.crossWasPressed()){ //increase speed
                 motorleft.setPower(0);
                 motorright.setPower(0);
-                telemetry.addData("Motor Speed Left",motorleft.getPower());
+                telemetry.addData("Motor Speed Left", motorleft.getPower());
                 telemetry.addData("Motor Speed Right: ",motorright.getPower());
             }else if(gamepad2.squareWasPressed()){ //Zero Speed
                 motorleft.setPower(0.6);
                 motorright.setPower(0.6);
-                motorPower = 0.6;
                 telemetry.addData("Motor Speed Left",motorleft.getPower());
                 telemetry.addData("Motor Speed Right: ",motorright.getPower());
 
@@ -81,12 +82,11 @@ public class GooseGOTHAM extends LinearOpMode {
             //decreasing and increasing
             if(gamepad2.leftBumperWasPressed()){
                 motorleft.setPower(motorleft.getPower() - 0.05);
-                motorright.setPower(motorleft.getPower() - 0.05);
-                motorPower = motorright.getPower();
-            }else if(gamepad2.rightBumperWasPressed()){
+                motorright.setPower(motorright.getPower() - 0.05);
+            }
+            if(gamepad2.rightBumperWasPressed()){
                 motorleft.setPower(motorleft.getPower() + 0.05);
-                motorright.setPower(motorleft.getPower() + 0.05);
-                motorPower = motorright.getPower();
+                motorright.setPower(motorright.getPower() + 0.05);
             }
 
             //SHOOT!
@@ -98,9 +98,11 @@ public class GooseGOTHAM extends LinearOpMode {
             }else if(gamepad2.dpad_down){
                 intake.setPower(0);
             }else if(gamepad2.dpad_right){
-                kickBall.setPosition(1);
+                kickBall.setPower(0.5);
+            }else if(!gamepad2.dpad_right){
+                kickBall.setPower(0);
             }else if(gamepad2.dpad_left){
-                kickBall.setPosition(0);
+                kickBall.setPower(-0.5);
             }
 
             //WHEEEEEEEELLLSSSSSSS GO WEEEEEEE
@@ -110,15 +112,23 @@ public class GooseGOTHAM extends LinearOpMode {
             double y = -gamepad1.left_stick_y;
             double r = gamepad1.right_stick_x;
 
-            frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            frontleft.setPower((y+x+r)*.3);
-            frontright.setPower((y-x-r)*.3);
-            backleft.setPower((y-x+r)*.3);
-            backright.setPower((y+x-r)*.3);
+//            frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            backleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            backright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+
+            frontleft.setPower((y+x+r)*speed);
+            frontright.setPower((y-x-r)*speed);
+            backleft.setPower((y-x+r)*speed);
+            backright.setPower((y+x-r)*speed);
+
+            telemetry.addData("Motor Speed",frontleft.getPower());
+            telemetry.addData("Motor Speed: ",frontright.getPower());
+
+
+            telemetry.addData("Motor Speed Left",motorleft.getPower());
+            telemetry.addData("Motor Speed Right: ",motorright.getPower());
             //update update update
             telemetry.update();
         }
