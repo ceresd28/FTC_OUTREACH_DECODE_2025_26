@@ -17,7 +17,7 @@ public class GooseGOTHAM extends LinearOpMode {
     //This was made by Adhithya Yuvaraj XD
 
     //lets instanitate the 7 motors!
-    DcMotor motorright, motorleft, frontright, frontleft, backright, backleft, intake;
+    DcMotor motorright, motorleft, frontright, frontleft, backright, backleft, intake1, intake2;
 
     //servo kick motor
     CRServo kickBall;
@@ -34,7 +34,8 @@ public class GooseGOTHAM extends LinearOpMode {
         frontleft = hardwareMap.get(DcMotor.class, "frontleft");
         backright = hardwareMap.get(DcMotor.class, "backright");
         backleft = hardwareMap.get(DcMotor.class, "backleft");
-        intake = hardwareMap.get(DcMotor.class, "intake");
+        intake1 = hardwareMap.get(DcMotor.class, "intake1");
+        intake2 = hardwareMap.get(DcMotor.class, "intake2");
 
         kickBall = hardwareMap.get(CRServo.class, "kickBall");
 
@@ -44,7 +45,7 @@ public class GooseGOTHAM extends LinearOpMode {
         frontleft.setDirection(DcMotorSimple.Direction.REVERSE);
         backleft.setDirection(DcMotorSimple.Direction.REVERSE);
         motorright.setDirection(DcMotor.Direction.REVERSE);
-        intake.setDirection(DcMotor.Direction.REVERSE);
+        intake1.setDirection(DcMotor.Direction.REVERSE);
 
         //INIT PART DONE!
         waitForStart();
@@ -94,23 +95,31 @@ public class GooseGOTHAM extends LinearOpMode {
 
             //intake dpad
             if(gamepad2.dpad_up){
-                intake.setPower(1);
-            }else if(gamepad2.dpad_down){
-                intake.setPower(0);
+                intake1.setPower(1);
+            }else{
+                intake1.setPower(0);
+            }
+
+            if(gamepad2.dpad_down){
+                intake2.setPower(1);
+            }else{
+                intake2.setPower(0);
+            }
+
+            if(gamepad2.dpad_left){
+                kickBall.setPower(-0.5);
             }else if(gamepad2.dpad_right){
                 kickBall.setPower(0.5);
-            }else if(!gamepad2.dpad_right){
+            }else{
                 kickBall.setPower(0);
-            }else if(gamepad2.dpad_left){
-                kickBall.setPower(-0.5);
             }
 
             //WHEEEEEEEELLLSSSSSSS GO WEEEEEEE
             //i dont get this stuff :(
             //dima did math in robotics rip
-            double x = gamepad1.left_stick_x;
-            double y = -gamepad1.left_stick_y;
-            double r = gamepad1.right_stick_x;
+            double x = gamepad2.left_stick_x;
+            double y = -gamepad2.left_stick_y;
+            double r = gamepad2.right_stick_x;
 
 //            frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
