@@ -49,8 +49,8 @@ public class GOOSE_DECODE_AUTON_2 extends LinearOpMode {
 
         if(opModeIsActive()){
             //set motor speed
-            motorleft.setPower((voltageSensor.getVoltage()/12.5) * .47);
-            motorright.setPower((voltageSensor.getVoltage()/12.5) * .47);
+            motorleft.setPower((voltageSensor.getVoltage()/12.5) * .47); //if voltageSensor doesnt work set to .47
+            motorright.setPower((voltageSensor.getVoltage()/12.5) * .47);  //if voltageSensor doesnt work set to .47
             lowerStop.setPosition(0.24);
             sleep(5000);
 

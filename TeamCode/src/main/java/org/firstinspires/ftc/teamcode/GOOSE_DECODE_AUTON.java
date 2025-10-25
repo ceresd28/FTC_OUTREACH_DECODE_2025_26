@@ -53,15 +53,15 @@ public class GOOSE_DECODE_AUTON extends LinearOpMode {
 
         if(opModeIsActive()){
             //set speed of motors
-            motorleft.setPower((voltageSensor.getVoltage()/12.5) * .47);
-            motorright.setPower((voltageSensor.getVoltage()/12.5) * .47);
+            motorleft.setPower((voltageSensor.getVoltage()/12.5) * .47);  //if voltageSensor doesnt work set to .47
+            motorright.setPower((voltageSensor.getVoltage()/12.5) * .47);  //if voltageSensor doesnt work set to .47
             lowerStop.setPosition(0.24);
 
             //make first artifact shoot.
             sleep(5000);
             intake2.setPower(1);
-            motorleft.setPower((voltageSensor.getVoltage()/12.5) * .47);
-            motorright.setPower((voltageSensor.getVoltage()/12.5) * .47);
+            motorleft.setPower((voltageSensor.getVoltage()/12.5) * .47);  //if voltageSensor doesnt work set to .47
+            motorright.setPower((voltageSensor.getVoltage()/12.5) * .47);  //if voltageSensor doesnt work set to .47
 
             //turn off and rest for zero position
             sleep(3000);
