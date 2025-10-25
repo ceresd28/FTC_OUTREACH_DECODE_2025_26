@@ -22,7 +22,6 @@ public class GOOSE_DECODE_AUTON extends LinearOpMode {
     //servo kick motor
     Servo lowerStop;
 
-
     VoltageSensor voltageSensor;
 
     @Override
@@ -36,11 +35,11 @@ public class GOOSE_DECODE_AUTON extends LinearOpMode {
         backleft = hardwareMap.get(DcMotor.class, "backleft");
         intake1 = hardwareMap.get(DcMotor.class, "intake1");
         intake2 = hardwareMap.get(DcMotor.class, "intake2");
-
         lowerStop = hardwareMap.get(Servo.class, "kickBall");
 
         //if this doesnt work DIMA DELETE THIS!
         voltageSensor = hardwareMap.get(VoltageSensor.class, "Expansion Hub 2");
+
 
         frontleft.setDirection(DcMotorSimple.Direction.REVERSE);
         backleft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -53,40 +52,47 @@ public class GOOSE_DECODE_AUTON extends LinearOpMode {
         waitForStart();
 
         if(opModeIsActive()){
+            //set speed of motors
             motorleft.setPower((voltageSensor.getVoltage()/12.5) * .47);
             motorright.setPower((voltageSensor.getVoltage()/12.5) * .47);
             lowerStop.setPosition(0.24);
 
+            //make first artifact shoot.
             sleep(5000);
             intake2.setPower(1);
             motorleft.setPower((voltageSensor.getVoltage()/12.5) * .47);
             motorright.setPower((voltageSensor.getVoltage()/12.5) * .47);
 
+            //turn off and rest for zero position
             sleep(3000);
             intake2.setPower(0);
             sleep(300);
             lowerStop.setPosition(0);
 
+            //turn on and then far artifact should shoot
             sleep(1000);
             intake2.setPower(1);
             intake1.setPower(1);
 
+            //sleep and turn off
             sleep(6000);
+            lowerStop.setPosition(0.48);
             intake2.setPower(0);
             intake1.setPower(0);
 
+            //shoot last artifact
             sleep(1000);
-            lowerStop.setPosition(0.48);
-            sleep(300);
             intake2.setPower(1);
             intake1.setPower(1);
 
+            //turn off all motors
             sleep(4000);
             motorleft.setPower(0);
             motorright.setPower(0);
             intake2.setPower(0);
             intake1.setPower(0);
 
+            //move robot
             sleep(10);
             frontleft.setPower(0.5);
             frontright.setPower(0.5);
@@ -95,6 +101,7 @@ public class GOOSE_DECODE_AUTON extends LinearOpMode {
             intake2.setPower(0);
             intake1.setPower(0);
 
+            //stop robot
             sleep(300);
             frontleft.setPower(0);
             frontright.setPower(0);

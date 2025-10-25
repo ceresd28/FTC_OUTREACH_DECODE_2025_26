@@ -48,30 +48,40 @@ public class GOOSE_DECODE_AUTON_2 extends LinearOpMode {
         waitForStart();
 
         if(opModeIsActive()){
+            //set motor speed
             motorleft.setPower((voltageSensor.getVoltage()/12.5) * .47);
             motorright.setPower((voltageSensor.getVoltage()/12.5) * .47);
             lowerStop.setPosition(0.24);
             sleep(5000);
 
+            //shoot first artifact
             intake2.setPower(1);
             sleep(5000);
 
-            upperStop.setPosition(0); //OPEN
+            //DIMA UNCOMMENT THE FOLLOWING IF NECESSARY
+            /*intake2.setPower(0)
+            sleep(500);
+             */
+
+            //shoot artifact 2
+            upperStop.setPosition(0); //OPEN POS
             sleep(1000); //time it takes to fully OPEN and one to leave
-            upperStop.setPosition(1); //CLOSE
+            upperStop.setPosition(1); //CLOSE POS
             sleep(3000); //time it takes to fully leave robot!
 
-            upperStop.setPosition(0); //OPEN
+            //shoot artifact 3
+            upperStop.setPosition(0); //OPEN POS
             sleep(1000); //time it takes to fully OPEN and one to leave
-            upperStop.setPosition(1); //CLOSE
+            upperStop.setPosition(1); //CLOSE POS
             sleep(3000); //time it takes to fully leave robot!
 
-
+            //all done shooting
             motorleft.setPower(0);
             motorright.setPower(0);
             intake2.setPower(0);
             intake1.setPower(0);
 
+            //start moving
             sleep(10);
             frontleft.setPower(0.5);
             frontright.setPower(0.5);
@@ -80,6 +90,7 @@ public class GOOSE_DECODE_AUTON_2 extends LinearOpMode {
             intake2.setPower(0);
             intake1.setPower(0);
 
+            //done moving
             sleep(300);
             frontleft.setPower(0);
             frontright.setPower(0);

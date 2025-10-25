@@ -50,10 +50,9 @@ public class GOOSE_DECODE_TELEOP extends LinearOpMode {
         motorright.setPower(0);
 
 
-        //THIS RUNS ON START!
         while(opModeIsActive()){
-            //Circle, Cross, Triangle, Square Stuff
-            if(gamepad1.circleWasPressed()) { //MAX SPEED DONT CLICK HIGH SPEED GO BRRRRRR
+
+            if(gamepad1.circleWasPressed()) {
                 motorleft.setPower(0.3);
                 motorright.setPower(0.3);
                 telemetry.addData("Motor Speed Left",motorleft.getPower());
@@ -123,9 +122,7 @@ public class GOOSE_DECODE_TELEOP extends LinearOpMode {
                 lowerStop.setPosition(.8);
             }
 
-            //WHEEEEEEEELLLSSSSSSS GO WEEEEEEE
-            //i dont get this stuff :(
-            //dima did math in robotics rip
+            //WHEELS
             double x = gamepad1.left_stick_x;
             double y = -gamepad1.left_stick_y;
             double r = gamepad1.right_stick_x;
@@ -137,10 +134,9 @@ public class GOOSE_DECODE_TELEOP extends LinearOpMode {
             telemetry.addData("Motor Speed",frontleft.getPower());
             telemetry.addData("Motor Speed: ",frontright.getPower());
 
-
+            //updating stuff
             telemetry.addData("Motor Speed Left",motorleft.getPower());
             telemetry.addData("Motor Speed Right: ",motorright.getPower());
-            //update update update
             telemetry.update();
         }
     }
