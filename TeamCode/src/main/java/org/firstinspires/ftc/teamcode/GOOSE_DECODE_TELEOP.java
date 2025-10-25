@@ -76,11 +76,13 @@ public class GOOSE_DECODE_TELEOP extends LinearOpMode {
             }
 
             //decreasing and increasing
-            if(gamepad1.leftBumperWasPressed()){
-                motorleft.setPower(motorleft.getPower() - 0.05);
-                motorright.setPower(motorright.getPower() - 0.05);
+            if(gamepad1.dpadDownWasPressed()){
+                if(motorleft.getPower() != 0) {
+                    motorleft.setPower(motorleft.getPower() - 0.05);
+                    motorright.setPower(motorright.getPower() - 0.05);
+                }
             }
-            if(gamepad1.rightBumperWasPressed()){
+            if(gamepad1.dpadUpWasPressed()){
                 motorleft.setPower(motorleft.getPower() + 0.05);
                 motorright.setPower(motorright.getPower() + 0.05);
             }
@@ -102,20 +104,20 @@ public class GOOSE_DECODE_TELEOP extends LinearOpMode {
             }
 
             //UPPER STOP BUTTONS DIMA CODE THISSSSS!!!!!!
-            if(gamepad2.squareWasPressed()){
+            if(gamepad2.crossWasPressed()){
                 //DIMA THIS IS THE PART YOU NEED TO CODE!
                 upperStop.setPosition(0); //SET TO OPEN POSITION
                 sleep(1000); //EDIT THIS IF WE NEED MORE/LESS TIME!
                 upperStop.setPosition(1); //SET TO CLOSE POSITION
             }if(gamepad2.squareWasPressed()){
-                upperStop.setPosition(1); //JUST IN CASE WE NEED TO SET TO UPPER POS.
+                upperStop.setPosition(1); //CLOSE UPPER STOPPER
             }
 
             //LOWER STOP BUTTONS
             if(gamepad2.dpadLeftWasPressed()){
-                lowerStop.setPosition(0);
-            }else if(gamepad2.dpadRightWasPressed()){
                 lowerStop.setPosition(0.48);
+            }else if(gamepad2.dpadRightWasPressed()){
+                lowerStop.setPosition(0);
             }else if(gamepad2.dpadUpWasPressed()) {
                 lowerStop.setPosition(0.24);
             }else if(gamepad2.dpadDownWasPressed()){
