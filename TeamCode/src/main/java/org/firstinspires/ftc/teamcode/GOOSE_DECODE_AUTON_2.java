@@ -64,16 +64,19 @@ public class GOOSE_DECODE_AUTON_2 extends LinearOpMode {
              */
 
             //shoot artifact 2
-            upperStop.setPosition(0); //OPEN POS DIMA EDIT
-            sleep(1000); //time it takes to fully OPEN and one to leave DIMA EDIT
-            upperStop.setPosition(1); //CLOSE POS DIMA EDIT
-            sleep(3000); //time it takes to fully leave robot! DIMA EDIT
+
+            //DIMA THESE LINES NEED TO BE EDITED :D
+            upperStop.setPosition(0); //OPEN POS
+            sleep(1000); //time it takes to fully OPEN and one to leave
+            upperStop.setPosition(1); //CLOSE POS
+            sleep(3000); //time it takes to fully leave robot!
 
             //shoot artifact 3
-            upperStop.setPosition(0); //OPEN POS DIMA EDIT
-            sleep(1000); //time it takes to fully OPEN and one to leave DIMA EDIT
-            upperStop.setPosition(1); //CLOSE POS DIMA EDIT
-            sleep(3000); //time it takes to fully leave robot! DIMA EDIT
+            upperStop.setPosition(0); //OPEN POS
+            sleep(1000); //time it takes to fully OPEN and one to leave
+            upperStop.setPosition(1); //CLOSE POS
+            sleep(3000); //time it takes to fully leave robot!
+            //NOTHING TO EDIT AFTER THIS!!!
 
             //all done shooting
             motorleft.setPower(0);

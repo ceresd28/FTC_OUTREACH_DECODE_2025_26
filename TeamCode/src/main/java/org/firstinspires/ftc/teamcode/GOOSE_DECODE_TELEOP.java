@@ -106,6 +106,8 @@ public class GOOSE_DECODE_TELEOP extends LinearOpMode {
             //UPPER STOP BUTTONS DIMA CODE THISSSSS!!!!!!
             if(gamepad2.crossWasPressed()){
                 //DIMA THIS IS THE PART YOU NEED TO CODE!
+
+                //Dima if we cant figure this out, just make this the open position
                 upperStop.setPosition(0); //SET TO OPEN POSITION
                 sleep(1000); //EDIT THIS IF WE NEED MORE/LESS TIME!
                 upperStop.setPosition(1); //SET TO CLOSE POSITION
