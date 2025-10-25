@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 @TeleOp(name="Goose_Teleop",group="")
-public class GooseTeleop extends LinearOpMode {
+public class oldgoose extends LinearOpMode {
     public boolean flywheelRunning = false;
     public int direction = 1;
     @Override

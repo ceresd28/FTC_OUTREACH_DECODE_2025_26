@@ -4,15 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 @TeleOp(name = "GOOSE DECODE TELEOP")
-public class GooseGOTHAM extends LinearOpMode {
+public class GOOSE_DECODE_TELEOP extends LinearOpMode {
 
     //This was made by Adhithya Yuvaraj XD
 
@@ -20,7 +16,7 @@ public class GooseGOTHAM extends LinearOpMode {
     DcMotor motorright, motorleft, frontright, frontleft, backright, backleft, intake1, intake2;
 
     //servo kick motor
-    CRServo kickBall;
+    Servo lowerStop, upperStop;
 
     double speed = 1; //0.3 is baby mode
 
@@ -36,10 +32,10 @@ public class GooseGOTHAM extends LinearOpMode {
         backleft = hardwareMap.get(DcMotor.class, "backleft");
         intake1 = hardwareMap.get(DcMotor.class, "intake1");
         intake2 = hardwareMap.get(DcMotor.class, "intake2");
+        lowerStop = hardwareMap.get(Servo.class, "kickBall");
 
-        kickBall = hardwareMap.get(CRServo.class, "kickBall");
-
-        //EX
+        //DIMA UNCOMMENT THIS WHEN FINISHED SET UP AND CONFIG!
+        //upperStop = hardwareMap.get(Servo.class, "upperStop");
 
         //UNO REVERSE THOSE MOTORS
         frontleft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -57,22 +53,22 @@ public class GooseGOTHAM extends LinearOpMode {
         //THIS RUNS ON START!
         while(opModeIsActive()){
             //Circle, Cross, Triangle, Square Stuff
-            if(gamepad2.circleWasPressed()) { //MAX SPEED DONT CLICK HIGH SPEED GO BRRRRRR
+            if(gamepad1.circleWasPressed()) { //MAX SPEED DONT CLICK HIGH SPEED GO BRRRRRR
                 motorleft.setPower(0.3);
                 motorright.setPower(0.3);
                 telemetry.addData("Motor Speed Left",motorleft.getPower());
                 telemetry.addData("Motor Speed Right: ",motorright.getPower());
-            }else if (gamepad2.triangleWasPressed()){ //decrease speed
+            }else if (gamepad1.triangleWasPressed()){ //decrease speed
                 motorleft.setPower(0.45);
                 motorright.setPower(0.45);
                 telemetry.addData("Motor Speed Left",motorleft.getPower());
                 telemetry.addData("Motor Speed Right: ",motorright.getPower());
-            }else if (gamepad2.crossWasPressed()){ //increase speed
+            }else if (gamepad1.crossWasPressed()){ //increase speed
                 motorleft.setPower(0);
                 motorright.setPower(0);
                 telemetry.addData("Motor Speed Left", motorleft.getPower());
                 telemetry.addData("Motor Speed Right: ",motorright.getPower());
-            }else if(gamepad2.squareWasPressed()){ //Zero Speed
+            }else if(gamepad1.squareWasPressed()){ //Zero Speed
                 motorleft.setPower(0.6);
                 motorright.setPower(0.6);
                 telemetry.addData("Motor Speed Left",motorleft.getPower());
@@ -81,57 +77,63 @@ public class GooseGOTHAM extends LinearOpMode {
             }
 
             //decreasing and increasing
-            if(gamepad2.leftBumperWasPressed()){
+            if(gamepad1.leftBumperWasPressed()){
                 motorleft.setPower(motorleft.getPower() - 0.05);
                 motorright.setPower(motorright.getPower() - 0.05);
             }
-            if(gamepad2.rightBumperWasPressed()){
+            if(gamepad1.rightBumperWasPressed()){
                 motorleft.setPower(motorleft.getPower() + 0.05);
                 motorright.setPower(motorright.getPower() + 0.05);
             }
 
-            //SHOOT!
 
-
-            //intake dpad
-            if(gamepad2.dpad_up){
-                intake1.setPower(1);
-            }else{
-                intake1.setPower(0);
+            //INTAKE BUTTONS
+            if(gamepad2.circleWasPressed()){
+                if(intake1.getPower() == 0){
+                    intake1.setPower(1);
+                }else{
+                    intake1.setPower(0);
+                }
+            } else if(gamepad2.triangleWasPressed()){
+                if(intake2.getPower() == 0){
+                    intake2.setPower(1);
+                }else{
+                    intake2.setPower(0);
+                }
             }
 
-            if(gamepad2.dpad_down){
-                intake2.setPower(1);
-            }else{
-                intake2.setPower(0);
+            //UPPER STOP BUTTONS DIMA CODE THISSSSS!!!!!!
+            if(gamepad2.squareWasPressed()){
+                //DIMA THIS IS THE PART YOU NEED TO CODE!
+                upperStop.setPosition(0); //SET TO OPEN POSITION
+                sleep(1000); //EDIT THIS IF WE NEED MORE/LESS TIME!
+                upperStop.setPosition(1); //SET TO CLOSE POSITION
+            }if(gamepad2.squareWasPressed()){
+                upperStop.setPosition(1); //JUST IN CASE WE NEED TO SET TO UPPER POS.
             }
 
-            if(gamepad2.dpad_left){
-                kickBall.setPower(-0.5);
-            }else if(gamepad2.dpad_right){
-                kickBall.setPower(0.5);
-            }else{
-                kickBall.setPower(0);
+            //LOWER STOP BUTTONS
+            if(gamepad2.dpadLeftWasPressed()){
+                lowerStop.setPosition(0);
+            }else if(gamepad2.dpadRightWasPressed()){
+                lowerStop.setPosition(0.48);
+            }else if(gamepad2.dpadUpWasPressed()) {
+                lowerStop.setPosition(0.24);
+            }else if(gamepad2.dpadDownWasPressed()){
+                lowerStop.setPosition(.8);
             }
 
             //WHEEEEEEEELLLSSSSSSS GO WEEEEEEE
             //i dont get this stuff :(
             //dima did math in robotics rip
-            double x = gamepad2.left_stick_x;
-            double y = -gamepad2.left_stick_y;
-            double r = gamepad2.right_stick_x;
-
-//            frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            backleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            backright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
+            double x = gamepad1.left_stick_x;
+            double y = -gamepad1.left_stick_y;
+            double r = gamepad1.right_stick_x;
+            //NO RUNNING WITH ENCODERS!!!!
             frontleft.setPower((y+x+r)*speed);
             frontright.setPower((y-x-r)*speed);
             backleft.setPower((y-x+r)*speed);
             backright.setPower((y+x-r)*speed);
-
             telemetry.addData("Motor Speed",frontleft.getPower());
             telemetry.addData("Motor Speed: ",frontright.getPower());
 
