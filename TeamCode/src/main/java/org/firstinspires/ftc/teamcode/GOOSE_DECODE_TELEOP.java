@@ -139,7 +139,7 @@ public class GOOSE_DECODE_TELEOP extends LinearOpMode {
         }
     }
     public static void shoot(DcMotor motorleft, DcMotor motorright,VoltageSensor voltage,double shooterSpeed) {
-        double voltageCoefficient = (voltage.getVoltage()/12.5);
+        double voltageCoefficient = (voltage.getVoltage()/12);
         motorleft.setPower(voltageCoefficient*shooterSpeed);
         motorright.setPower(voltageCoefficient*shooterSpeed);
     }

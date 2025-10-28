@@ -53,40 +53,44 @@ public class GOOSE_DECODE_AUTON extends LinearOpMode {
 
         if(opModeIsActive()){
             //set speed of motors
-            motorleft.setPower((voltageSensor.getVoltage()/12.5) * .47);  //if voltageSensor doesnt work set to .47
-            motorright.setPower((voltageSensor.getVoltage()/12.5) * .47);  //if voltageSensor doesnt work set to .47
+            motorleft.setPower((voltageSensor.getVoltage()/12) * .44);  //if voltageSensor doesnt work set to .47
+            motorright.setPower((voltageSensor.getVoltage()/12) * .44);  //if voltageSensor doesnt work set to .47
             //lowerStop.setPosition(0.24);
 
             //make first artifact shoot.
             sleep(5000);
             intake2.setPower(1);
-            motorleft.setPower((voltageSensor.getVoltage()/12.5) * .47);  //if voltageSensor doesnt work set to .47
-            motorright.setPower((voltageSensor.getVoltage()/12.5) * .47);  //if voltageSensor doesnt work set to .47
+            motorleft.setPower((voltageSensor.getVoltage()/12) * .47);  //if voltageSensor doesnt work set to .47
+            motorright.setPower((voltageSensor.getVoltage()/12) * .47);  //if voltageSensor doesnt work set to .47
 
             //turn off and rest for zero position
-            sleep(3000);
+            sleep(1000);
             intake2.setPower(0);
             sleep(300);
             //lowerStop.setPosition(0);
 
             //turn on and then far artifact should shoot
             sleep(1000);
+            motorleft.setPower((voltageSensor.getVoltage()/12) * .50);
+            motorright.setPower((voltageSensor.getVoltage()/12) * .50);
             intake2.setPower(1);
             intake1.setPower(1);
 
             //sleep and turn off
-            sleep(6000);
+            sleep(3000);
             //lowerStop.setPosition(0.48);
             intake2.setPower(0);
             intake1.setPower(0);
 
             //shoot last artifact
-            sleep(1000);
+            sleep(500);
+            motorleft.setPower((voltageSensor.getVoltage()/12) * .50);
+            motorright.setPower((voltageSensor.getVoltage()/12) * .50);
             intake2.setPower(1);
             intake1.setPower(1);
 
             //turn off all motors
-            sleep(4000);
+            sleep(3000);
             motorleft.setPower(0);
             motorright.setPower(0);
             intake2.setPower(0);
