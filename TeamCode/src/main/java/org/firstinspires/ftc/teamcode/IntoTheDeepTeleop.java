@@ -67,7 +67,7 @@ public class IntoTheDeepTeleop extends LinearOpMode {
         }
         while (opModeIsActive()) {
             // configure controls
-            Wheels.TeleOpDrive((kidMode) ? .075 : .1);
+            Wheels.TeleOpDrive(gamepad1,(kidMode) ? .075 : .1);
             if (gamepad1.circle) {
                 if (wallPosition) {
                     wallPosition = false;

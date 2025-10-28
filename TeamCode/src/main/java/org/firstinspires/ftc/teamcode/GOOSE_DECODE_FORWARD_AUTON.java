@@ -13,10 +13,10 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import java.util.List;
 
-@Autonomous(name = "Far Zone (No Ramp)")
-public class GOOSE_DECODE_AUTON extends LinearOpMode {
-    //This was made by Adhithya Yuvaraj XD
-    //Ideally it should shoot an artifact, and then move a bit.
+@Autonomous(name = "just move forward :)")
+public class GOOSE_DECODE_FORWARD_AUTON extends LinearOpMode {
+    //This was made by Dima
+    // should just move forward
     DcMotor motorright, motorleft, frontright, frontleft, backright, backleft, intake1, intake2;
 
     //servo kick motor
@@ -52,39 +52,6 @@ public class GOOSE_DECODE_AUTON extends LinearOpMode {
         waitForStart();
 
         if(opModeIsActive()){
-            //set speed of motors
-            motorleft.setPower((voltageSensor.getVoltage()/12.5) * .47);  //if voltageSensor doesnt work set to .47
-            motorright.setPower((voltageSensor.getVoltage()/12.5) * .47);  //if voltageSensor doesnt work set to .47
-            //lowerStop.setPosition(0.24);
-
-            //make first artifact shoot.
-            sleep(5000);
-            intake2.setPower(1);
-            motorleft.setPower((voltageSensor.getVoltage()/12.5) * .47);  //if voltageSensor doesnt work set to .47
-            motorright.setPower((voltageSensor.getVoltage()/12.5) * .47);  //if voltageSensor doesnt work set to .47
-
-            //turn off and rest for zero position
-            sleep(3000);
-            intake2.setPower(0);
-            sleep(300);
-            //lowerStop.setPosition(0);
-
-            //turn on and then far artifact should shoot
-            sleep(1000);
-            intake2.setPower(1);
-            intake1.setPower(1);
-
-            //sleep and turn off
-            sleep(6000);
-            //lowerStop.setPosition(0.48);
-            intake2.setPower(0);
-            intake1.setPower(0);
-
-            //shoot last artifact
-            sleep(1000);
-            intake2.setPower(1);
-            intake1.setPower(1);
-
             //turn off all motors
             sleep(4000);
             motorleft.setPower(0);

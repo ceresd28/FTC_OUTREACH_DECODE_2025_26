@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 @TeleOp(name = "GOOSE DECODE TELEOP")
 public class GOOSE_DECODE_TELEOP extends LinearOpMode {
@@ -16,8 +17,9 @@ public class GOOSE_DECODE_TELEOP extends LinearOpMode {
     DcMotor motorright, motorleft, frontright, frontleft, backright, backleft, intake1, intake2;
 
     //servo kick motor
+    VoltageSensor voltageSensor;
     Servo lowerStop, upperStop;
-
+    double shooterSpeed = .47;
     double speed = 1; //0.3 is baby mode
 
     @Override
@@ -32,16 +34,17 @@ public class GOOSE_DECODE_TELEOP extends LinearOpMode {
         backleft = hardwareMap.get(DcMotor.class, "backleft");
         intake1 = hardwareMap.get(DcMotor.class, "intake1");
         intake2 = hardwareMap.get(DcMotor.class, "intake2");
-        lowerStop = hardwareMap.get(Servo.class, "kickBall");
-
-        //DIMA UNCOMMENT THIS WHEN FINISHED SET UP AND CONFIG!
+        voltageSensor = hardwareMap.get(VoltageSensor.class, "Expansion Hub 2");
+        //lowerStop = hardwareMap.get(Servo.class, "kickBall");
         //upperStop = hardwareMap.get(Servo.class, "upperStop");
+
+        //upperStop.scaleRange(0,1); // 0=open, 1=close ////////////////
 
         //UNO REVERSE THOSE MOTORS
         frontleft.setDirection(DcMotorSimple.Direction.REVERSE);
         backleft.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorright.setDirection(DcMotor.Direction.REVERSE);
-        intake1.setDirection(DcMotor.Direction.REVERSE);
+        motorright.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake1.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //INIT PART DONE!
         waitForStart();
@@ -52,70 +55,60 @@ public class GOOSE_DECODE_TELEOP extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            if(gamepad1.circleWasPressed()) {
-                motorleft.setPower(0.3);
-                motorright.setPower(0.3);
-                telemetry.addData("Motor Speed Left",motorleft.getPower());
-                telemetry.addData("Motor Speed Right: ",motorright.getPower());
-            }else if (gamepad1.triangleWasPressed()){ //decrease speed
-                motorleft.setPower(0.45);
-                motorright.setPower(0.45);
-                telemetry.addData("Motor Speed Left",motorleft.getPower());
-                telemetry.addData("Motor Speed Right: ",motorright.getPower());
-            }else if (gamepad1.crossWasPressed()){ //increase speed
-                motorleft.setPower(0);
-                motorright.setPower(0);
-                telemetry.addData("Motor Speed Left", motorleft.getPower());
-                telemetry.addData("Motor Speed Right: ",motorright.getPower());
-            }else if(gamepad1.squareWasPressed()){ //Zero Speed
-                motorleft.setPower(0.6);
-                motorright.setPower(0.6);
-                telemetry.addData("Motor Speed Left",motorleft.getPower());
-                telemetry.addData("Motor Speed Right: ",motorright.getPower());
-
+            if (gamepad1.crossWasPressed()){ // off/on
+                shoot(motorleft, motorright, voltageSensor, (motorleft.getPower()==0) ? shooterSpeed : 0);
+            } else if(gamepad1.circleWasPressed()) { // decrease
+                shooterSpeed = .3;
+                shoot(motorleft, motorright, voltageSensor, shooterSpeed);
+            } else if (gamepad1.triangleWasPressed()){ // norm
+                shooterSpeed = .47;
+                shoot(motorleft, motorright, voltageSensor, shooterSpeed);
+            } else if(gamepad1.squareWasPressed()){ // increase
+                shooterSpeed = .6;
+                shoot(motorleft, motorright, voltageSensor, shooterSpeed);
             }
 
             //decreasing and increasing
-            if(gamepad1.dpadDownWasPressed()){
-                if(motorleft.getPower() != 0) {
-                    motorleft.setPower(motorleft.getPower() - 0.05);
-                    motorright.setPower(motorright.getPower() - 0.05);
+            if (motorleft.getPower() > 0) {
+                if(gamepad1.dpadDownWasPressed()){
+                    shooterSpeed -= 0.05;
+                    shoot(motorleft, motorright, voltageSensor, shooterSpeed);
                 }
-            }
-            if(gamepad1.dpadUpWasPressed()){
-                motorleft.setPower(motorleft.getPower() + 0.05);
-                motorright.setPower(motorright.getPower() + 0.05);
+                if(gamepad1.dpadUpWasPressed()){
+                    shooterSpeed += 0.05;
+                    shoot(motorleft, motorright, voltageSensor, shooterSpeed);
+                }
             }
 
 
             //INTAKE BUTTONS
-            if(gamepad2.circleWasPressed()){
-                if(intake1.getPower() == 0){
-                    intake1.setPower(1);
-                }else{
-                    intake1.setPower(0);
-                }
-            } else if(gamepad2.triangleWasPressed()){
-                if(intake2.getPower() == 0){
-                    intake2.setPower(1);
-                }else{
-                    intake2.setPower(0);
-                }
+            if(gamepad2.circleWasPressed()){ // spin intake1 norm way
+                intake1.setDirection(DcMotorSimple.Direction.REVERSE);
+                intake1.setPower(1-intake1.getPower());
             }
-
-            //UPPER STOP BUTTONS DIMA CODE THISSSSS!!!!!!
+            if (gamepad2.squareWasPressed()) {
+                intake1.setDirection(DcMotorSimple.Direction.FORWARD);
+                intake1.setPower(1-intake1.getPower());
+            }
+            if (gamepad2.triangleWasPressed()) { // spin intake2 norm way
+                intake2.setDirection(DcMotorSimple.Direction.FORWARD);
+                intake2.setPower(1-intake2.getPower());
+            }
             if(gamepad2.crossWasPressed()){
-                //DIMA THIS IS THE PART YOU NEED TO CODE!
-
-                //Dima if we cant figure this out, just make this the open position
-                upperStop.setPosition(0); //SET TO OPEN POSITION
-                sleep(1000); //EDIT THIS IF WE NEED MORE/LESS TIME!
-                upperStop.setPosition(1); //SET TO CLOSE POSITION
-            }if(gamepad2.squareWasPressed()){
-                upperStop.setPosition(1); //CLOSE UPPER STOPPER
+                intake2.setDirection(DcMotorSimple.Direction.REVERSE);
+                intake2.setPower(1-intake2.getPower());
             }
-
+            /*
+            if(gamepad2.crossWasPressed()){
+                upperStop.setPosition(0);
+                sleep((long) thruRampTime);
+                upperStop.setPosition(1);
+            }if(gamepad2.squareWasPressed()){
+                upperStop.setPosition(1);
+            }
+            */
             //LOWER STOP BUTTONS
+            /*
             if(gamepad2.dpadLeftWasPressed()){
                 lowerStop.setPosition(0.48);
             }else if(gamepad2.dpadRightWasPressed()){
@@ -125,6 +118,7 @@ public class GOOSE_DECODE_TELEOP extends LinearOpMode {
             }else if(gamepad2.dpadDownWasPressed()){
                 lowerStop.setPosition(.8);
             }
+             */
 
             //WHEELS
             double x = gamepad1.left_stick_x;
@@ -135,13 +129,18 @@ public class GOOSE_DECODE_TELEOP extends LinearOpMode {
             frontright.setPower((y-x-r)*speed);
             backleft.setPower((y-x+r)*speed);
             backright.setPower((y+x-r)*speed);
-            telemetry.addData("Motor Speed",frontleft.getPower());
-            telemetry.addData("Motor Speed: ",frontright.getPower());
+            telemetry.addData("Wheel Speed",frontleft.getPower());
+            telemetry.addData("Wheel Speed: ",frontright.getPower());
 
             //updating stuff
-            telemetry.addData("Motor Speed Left",motorleft.getPower());
-            telemetry.addData("Motor Speed Right: ",motorright.getPower());
+            telemetry.addData("Shooter Speed Left",motorleft.getPower());
+            telemetry.addData("Shooter Speed Right: ",motorright.getPower());
             telemetry.update();
         }
+    }
+    public static void shoot(DcMotor motorleft, DcMotor motorright,VoltageSensor voltage,double shooterSpeed) {
+        double voltageCoefficient = (voltage.getVoltage()/12.5);
+        motorleft.setPower(voltageCoefficient*shooterSpeed);
+        motorright.setPower(voltageCoefficient*shooterSpeed);
     }
 }

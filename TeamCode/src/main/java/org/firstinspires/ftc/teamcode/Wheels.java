@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import java.util.ArrayList;
 
@@ -31,20 +32,20 @@ public class Wheels {
         Motors.runControlled(bottomLeft,y-x+r);
         Motors.runControlled(bottomRight,y+x-r);
     }
-    public static void TeleOpDrive(double percentPwr) {
-        double x = Robot.opMode.gamepad1.left_stick_x*1.1;
-        double y = -Robot.opMode.gamepad1.left_stick_y;
-        double r = Robot.opMode.gamepad1.right_stick_x;
+    public static void TeleOpDrive(Gamepad gamepad, double percentPwr) {
+        double x = gamepad.left_stick_x*1.1;
+        double y = -gamepad.left_stick_y;
+        double r = gamepad.right_stick_x;
 
         x*=percentPwr;
         y*=percentPwr;
         r*=percentPwr;
 
-        if (!Robot.opMode.gamepad1.left_stick_button) {
+        if (!gamepad.left_stick_button) {
             x*=.9;
             y*=.9;
         }
-        if (!Robot.opMode.gamepad1.right_stick_button) {
+        if (!gamepad.right_stick_button) {
             r*=.9;
         }
         move(x,y,r);
